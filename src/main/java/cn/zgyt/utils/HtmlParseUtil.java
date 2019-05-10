@@ -16,13 +16,14 @@ public class HtmlParseUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<String> analysisPage(String listPage,String baseUrl) throws Exception{
+	public static List<String> analysisPage(String listPage,String baseUrl,String select,String aTipSelect) throws Exception{
 		ArrayList<String> ll = new ArrayList<>();
 	    Document doc = Jsoup.parse(listPage,baseUrl);  
-        Elements divs = doc.select("div[class$='news-item']");
+        Elements divs = doc.select(select);//"div[class$='news-item']"
         for (int i = 0; i < divs.size(); i++) {
 			Element e = divs.get(i);
-			System.out.println(e);
+			Elements aTip = e.select(aTipSelect);
+			System.out.println(111);
 		}
 		return ll;
 	}

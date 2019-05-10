@@ -29,8 +29,8 @@ public class ScheduleTask {
     	
     	try {
     		//查询更新时间在一天之内的（不需要同步的项目）
-    		String page = reptileUtil.getPage(BrowserVersion.CHROME,"http://www.bjzgyt.cn/artD/page/5.html");
-    		articleService.analysisPage(page);
+    		
+    		articleService.analysisPage("http://vip.shulink.com/files/article/html/68/68975/index.html","http://vip.shulink.com");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
