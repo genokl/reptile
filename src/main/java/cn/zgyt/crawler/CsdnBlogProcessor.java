@@ -1,10 +1,15 @@
 package cn.zgyt.crawler;
-import java.util.List;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
-import cn.zgyt.utils.CommonUtil;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebClientOptions;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 public class CsdnBlogProcessor implements PageProcessor {
@@ -17,45 +22,33 @@ public class CsdnBlogProcessor implements PageProcessor {
 
     
     public static void main(String[] args) {
-        // 从用户博客首页开始抓，开启5个线程，启动爬虫
-        Spider.create(new CsdnBlogProcessor())
-        .addUrl("http://blog.csdn.net/" + username)
-        .thread(5)
-        .run();
-        System.out.println("文章总数为"+size);
+    	String url = "http://www.bjzgyt.cn/artD/page/5.html";
+    	try {
+    		WebClient wc = new WebClient(BrowserVersion.CHROME);
+    		WebClientOptions options = wc.getOptions();
+            options.setJavaScriptEnabled(true);              // 启用JS解释器，默认为true
+            options.setCssEnabled(false);                    // 禁用css支持
+            options.setThrowExceptionOnScriptError(false);   // js运行错误时，是否抛出异常
+            options.setThrowExceptionOnFailingStatusCode(false);
+            options.setTimeout(10 * 1000);                   // 设置连接超时时间
+            HtmlPage page = wc.getPage(url);
+            wc.waitForBackgroundJavaScript(30 * 1000);               // 等待js后台执行30秒
+            String pageAsXml = page.asXml();
+            // Jsoup解析处理
+            Document doc = Jsoup.parse(pageAsXml, "http://www.bjzgyt.cn");  
+            Elements pngs = doc.select("img[src$=.jpg]");
+            System.out.println(pngs);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
     }
     
     @Override
     public void process(Page page) {
-    	//https://blog.csdn.net/yixiao1874/article/details/79496825
-        if (!page.getUrl().regex("http://blog.csdn.net/" + username + "/article/details/\\d+").match()) {
-            //获取当前页码
-            String number = page.getHtml().xpath("//div[@class='pagination-box']").toString();
-            //匹配当前页码+1的页码也就是下一页，加入爬取列表中
-            if(CommonUtil.checkFull(number)) {
-            	number="1";
-            }
-            String targetUrls = page.getHtml().links()
-                    .regex("http://blog.csdn.net/"+username+"/article/list/"+(Integer.parseInt(number)+1)).get();
-            page.addTargetRequest(targetUrls);
- 
-            List<String> detailUrls = page.getHtml().xpath("//li[@class='blog-unit']//a/@href").all();
-            for(String list :detailUrls){
-                System.out.println(list);
-            }
-            page.addTargetRequests(detailUrls);
-        }else {
-            size++;// 文章数量加1
-            CsdnBlog csdnBlog = new CsdnBlog();
-            String path = page.getUrl().get();
-            int id = Integer.parseInt(path.substring(path.lastIndexOf("/")+1));
-            String title = page.getHtml().xpath("//h1[@class='csdn_top']/text()").get();
-            String date = page.getHtml().xpath("//div[@class='artical_tag']//span[@class='time']/text()").get();
-            String copyright = page.getHtml().xpath("//div[@class='artical_tag']//span[@class='original']/text()").get();
-            int view = Integer.parseInt(page.getHtml().xpath("//button[@class='btn-noborder']//span[@class='txt']/text()").get());
-            csdnBlog.id(id).title(title).date(date).copyright(copyright).view(view);
-            System.out.println(csdnBlog);
-        }
+    	System.out.println(page);
+    	System.out.println(page.getJson());
+    	String string = page.getJson().jsonPath("$.name").get();
     }
 
 	 @Override
