@@ -65,6 +65,36 @@ public class Story {
 	
 	
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((storyAuther == null) ? 0 : storyAuther.hashCode());
+		result = prime * result + ((storyTitle == null) ? 0 : storyTitle.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Story other = (Story) obj;
+		if (storyAuther == null) {
+			if (other.storyAuther != null)
+				return false;
+		} else if (!storyAuther.equals(other.storyAuther))
+			return false;
+		if (storyTitle == null) {
+			if (other.storyTitle != null)
+				return false;
+		} else if (!storyTitle.equals(other.storyTitle))
+			return false;
+		return true;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

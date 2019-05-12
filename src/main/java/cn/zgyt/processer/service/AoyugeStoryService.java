@@ -98,29 +98,32 @@ public class AoyugeStoryService {
 				String text = info.select(".js").text().split("：")[1];
 				Elements wode = info.select(".wode > strong");
 				Elements chapters = d.select(".chapterlist > dd > a");
-				Integer count=1;
-				for (Element chapter : chapters) {
-					System.out.println(chapter);
-					StoryChapter sc=new StoryChapter();
-					String[] ss = chapter.text().split(" ");
-					if(ss.length==2) {
-						sc.setChapterTitle(ss[1]);
-					}
-					sc.setChapterSequence(count+"");
-					count++;
-					sc.setChapterUrl(s.getBaseUrl()+chapter.attr("href"));
-					lls.add(sc);
-					s.setChapter(lls);
-				}
-				
-				for (Element es : wode) {
-					String ss=es.text().split("：")[1];
-					s.setStoryType(ss);
-					break;
-				}
 				s.setStoryAuther(author);
 				s.setStorySynopsis(text);
-				analysisPageForOneChapter(s);
+				Story storyData = sRep.findByStoryAutherAndStoryTitle(s.getStoryAuther(), s.getStoryTitle());
+				if(storyData==null) {
+					Integer count=1;
+					for (Element chapter : chapters) {
+						System.out.println(chapter);
+						StoryChapter sc=new StoryChapter();
+						String[] ss = chapter.text().split(" ");
+						if(ss.length==2) {
+							sc.setChapterTitle(ss[1]);
+						}
+						sc.setChapterSequence(count+"");
+						count++;
+						sc.setChapterUrl(s.getBaseUrl()+chapter.attr("href"));
+						lls.add(sc);
+						s.setChapter(lls);
+					}
+					
+					for (Element es : wode) {
+						String ss=es.text().split("：")[1];
+						s.setStoryType(ss);
+						break;
+					}
+					analysisPageForOneChapter(s);
+				}
 //			}
 			return null;
 		}
@@ -131,10 +134,10 @@ public class AoyugeStoryService {
 			for (int i = 0; i < scs.size(); i++) {
 				StoryChapter chapter = scs.get(i);
 				Document d = Jsoup.connect(chapter.getChapterUrl()).get();
-				String info = d.select("#BookText").text();
+				String info = d.select("#BookText").text().replaceAll("&nbsp;", "");
 				chapter.setChapterInfo(info);
 			}
-			sRep.save(story);
+//			sRep.save(story);
 			System.out.println(story);
 			return null;
 		}

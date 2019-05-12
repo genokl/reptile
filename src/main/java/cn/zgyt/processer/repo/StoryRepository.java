@@ -8,4 +8,5 @@ import cn.zgyt.processer.aoyugeStory.vo.Story;
 public interface StoryRepository extends JpaRepository<Story, Integer>, JpaSpecificationExecutor<Story> {
 
 	
+	public Story findByStoryAutherAndStoryTitle(String storyAuther,String storyTitle);
 }
