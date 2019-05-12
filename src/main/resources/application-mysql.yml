@@ -1,6 +1,6 @@
 #Version 1.1.1
 server:
-  port: 8083
+  port: 8080
   mysql: 
     host: 139.199.127.171
     port: 3306
@@ -9,6 +9,7 @@ spring:
   application:
     name: reptile
   datasource:
+    driver-class-name: com.mysql.jdbc.Driver
     username: wzj@zgyt
     password: admin123sw21321
     url: jdbc:mysql://${server.mysql.host}:${server.mysql.port}/reptile?characterEncoding=UTF-8&useSSL=true
