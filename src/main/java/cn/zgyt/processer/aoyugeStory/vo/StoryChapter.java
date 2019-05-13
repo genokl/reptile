@@ -1,6 +1,5 @@
 package cn.zgyt.processer.aoyugeStory.vo;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -22,8 +20,7 @@ public class StoryChapter {
     @GenericGenerator(name = "increment", strategy = "increment")
 	private Integer id;
 	
-	@ManyToOne() 
-	@JoinColumn(name="story_id") 
+	@ManyToOne(targetEntity=Story.class, fetch=FetchType.LAZY)
 	private Story story;
 	/**
 	 * 章节名称

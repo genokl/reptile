@@ -1,6 +1,6 @@
 #Version 1.1.1
 server:
-  port: 8080
+  port: 8086
   mysql: 
     host: 139.199.127.171
     port: 3306
