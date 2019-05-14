@@ -54,7 +54,6 @@ public class ScheduleTask {
 				}
     		}
     		ConstantPool.setNewjds(new ArrayList<JobScheduler>());
-    		System.out.println(13232);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
