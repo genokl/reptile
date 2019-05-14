@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @SpringBootApplication
-//@EnableScheduling
-@EnableAsync
+@EnableScheduling
+//@EnableAsync
 public class ReptileApplication {
 
 	public static void main(String[] args) {

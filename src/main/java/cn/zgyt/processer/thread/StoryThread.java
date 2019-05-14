@@ -2,8 +2,8 @@ package cn.zgyt.processer.thread;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cn.zgyt.processer.aoyugeStory.ConstantPool;
 import cn.zgyt.processer.service.StoryUpdateService;
+import cn.zgyt.utils.ConstantPool;
 import cn.zgyt.utils.SpringContextUtil;
 
 public class StoryThread extends Thread {
