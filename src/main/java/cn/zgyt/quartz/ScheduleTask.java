@@ -51,7 +51,6 @@ public class ScheduleTask {
 //    				TaskThread tt=new TaskThread();
 //    				tt.setJobDetail(newjds.get(i));
 //    				tt.run();
-    				
 				}
     		}
     		ConstantPool.setNewjds(new ArrayList<JobScheduler>());

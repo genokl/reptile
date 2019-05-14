@@ -129,7 +129,6 @@ public class QuartzManager {
 		try {
 			TriggerKey triggerKey = TriggerKey.triggerKey(triggerName,
 					triggerGroupName);
- 
 			scheduler.pauseTrigger(triggerKey);// 停止触发器
 			scheduler.unscheduleJob(triggerKey);// 移除触发器
 			scheduler.deleteJob(JobKey.jobKey(jobName, jobGroupName));// 删除任务
