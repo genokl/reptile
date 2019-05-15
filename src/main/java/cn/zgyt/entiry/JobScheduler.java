@@ -9,7 +9,6 @@ import javax.persistence.Id;
 @Entity
 public class JobScheduler {
 
-	public static final String JOB_PARAM = "jobParam";
 	@Id 
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
@@ -20,14 +19,44 @@ public class JobScheduler {
 	private Date createDate;
 	private Date updateDate;
 	private Integer isExcute;
+	
+	private String listSele;
+	private String infoSele;
+	private String keywordSele;
+	private String titleSele;
+	private String dateSele;
+	
 	//触发器名
     private String trigget;
     //触发器组名
     private String triggetGroup;
+    private String baseUrl;
+    private String filterStr;
+    private String filterTag;
+    private String articleType;
+    private String dateFormateStr;
     
     
     
 	
+	public String getTitleSele() {
+		return titleSele;
+	}
+	public void setTitleSele(String titleSele) {
+		this.titleSele = titleSele;
+	}
+	public String getDateSele() {
+		return dateSele;
+	}
+	public void setDateSele(String dateSele) {
+		this.dateSele = dateSele;
+	}
+	public String getKeywordSele() {
+		return keywordSele;
+	}
+	public void setKeywordSele(String keywordSele) {
+		this.keywordSele = keywordSele;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -85,6 +114,51 @@ public class JobScheduler {
 	}
 	public String getTriggetGroup() {
 		return triggetGroup;
+	}
+	public String getListSele() {
+		return listSele;
+	}
+	public void setListSele(String listSele) {
+		this.listSele = listSele;
+	}
+	public String getInfoSele() {
+		return infoSele;
+	}
+	public void setInfoSele(String infoSele) {
+		this.infoSele = infoSele;
+	}
+	public void setTriggetGroup(String triggetGroup) {
+		this.triggetGroup = triggetGroup;
+	}
+	public String getBaseUrl() {
+		return baseUrl;
+	}
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
+	}
+	public String getFilterStr() {
+		return filterStr;
+	}
+	public void setFilterStr(String filterStr) {
+		this.filterStr = filterStr;
+	}
+	public String getArticleType() {
+		return articleType;
+	}
+	public void setArticleType(String articleType) {
+		this.articleType = articleType;
+	}
+	public String getFilterTag() {
+		return filterTag;
+	}
+	public void setFilterTag(String filterTag) {
+		this.filterTag = filterTag;
+	}
+	public String getDateFormateStr() {
+		return dateFormateStr;
+	}
+	public void setDateFormateStr(String dateFormateStr) {
+		this.dateFormateStr = dateFormateStr;
 	}
 	
 	

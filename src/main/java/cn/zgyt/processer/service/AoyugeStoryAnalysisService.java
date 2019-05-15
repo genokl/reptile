@@ -1,6 +1,5 @@
 package cn.zgyt.processer.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,12 +13,11 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import cn.zgyt.processer.aoyugeStory.vo.Story;
 import cn.zgyt.processer.aoyugeStory.vo.StoryChapter;
-import cn.zgyt.processer.repo.StoryChapterRepository;
-import cn.zgyt.processer.repo.StoryRepository;
+import cn.zgyt.repo.StoryChapterRepository;
+import cn.zgyt.repo.StoryRepository;
 import cn.zgyt.utils.ConstantPool;
 
 /**

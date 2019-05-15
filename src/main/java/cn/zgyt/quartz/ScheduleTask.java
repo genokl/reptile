@@ -1,14 +1,8 @@
 package cn.zgyt.quartz;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
 import cn.zgyt.entiry.JobScheduler;
+import cn.zgyt.processer.service.NewStoryAnalysisService;
 import cn.zgyt.repository.JobSchedulerRepository;
-import cn.zgyt.utils.ConstantPool;
 
   
 @Configuration  
@@ -26,34 +20,24 @@ import cn.zgyt.utils.ConstantPool;
 @EnableScheduling // 此注解必加  
 public class ScheduleTask {  
 	
-	
     private static final Logger LOGGER =  LoggerFactory.getLogger(ScheduleTask.class);
-    
+   
     @Autowired
     private JobSchedulerRepository jobSchedulerRepository;
+    @Autowired
+    private NewStoryAnalysisService newStoryAnalysisService;
     /**
      * 定时查数据库，发送文件
      * @throws Exception 
      */
     public void updateScheduleList(){ 
     	try {
-    		List<JobScheduler> alljds = ConstantPool.getAlljds();
-    		List<JobScheduler> newjds = new ArrayList<>();
-    		if(alljds.size()==0) {//第一次启动
-    			List<JobScheduler> all = jobSchedulerRepository.findAll();
-    			newjds=all;
-    			ConstantPool.setAlljds(all);
-    		}else {//以后启动
-    			newjds=ConstantPool.getNewjds();	
-			}
-    		if(newjds.size()>0) {
-    			for (int i = 0; i < newjds.size(); i++) {
-//    				TaskThread tt=new TaskThread();
-//    				tt.setJobDetail(newjds.get(i));
-//    				tt.run();
-				}
+    		List<JobScheduler> ll = jobSchedulerRepository.findByIsExcute(1);
+    		if(ll.size()>0) {
+    			JobScheduler js = ll.get(0);
+        		System.out.println(js);
+        		newStoryAnalysisService.analysisPageForList(js);
     		}
-    		ConstantPool.setNewjds(new ArrayList<JobScheduler>());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

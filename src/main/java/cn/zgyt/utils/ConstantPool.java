@@ -12,6 +12,7 @@ import cn.zgyt.processer.aoyugeStory.vo.Story;
 
 public class ConstantPool {
 	
+	private static List<String> newsUrl = new ArrayList<String>();
 
 	private static List<JobScheduler> alljds = new ArrayList<JobScheduler>();
 	private static List<JobScheduler> newjds = new ArrayList<JobScheduler>();
@@ -53,6 +54,13 @@ public class ConstantPool {
 	public static void setNewjds(List<JobScheduler> newjds) {
 		ConstantPool.newjds = newjds;
 	}
+	public static List<String> getNewsUrl() {
+		return newsUrl;
+	}
+	public static void setNewsUrl(List<String> newsUrl) {
+		ConstantPool.newsUrl = newsUrl;
+	}
+	
 	
 	
 	

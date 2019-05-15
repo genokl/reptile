@@ -56,7 +56,7 @@ public class QuartzConfigration {
     public CronTriggerFactoryBean cronJobTrigger(MethodInvokingJobDetailFactoryBean jobDetail) {  
         CronTriggerFactoryBean tigger = new CronTriggerFactoryBean();  
         tigger.setJobDetail(jobDetail.getObject());  
-        tigger.setCronExpression("0/10 * * * * ?");// 初始时的cron表达式  
+        tigger.setCronExpression("0/20 * * * * ?");// 初始时的cron表达式  
         tigger.setName(jobName1);// trigger的name  
         return tigger;  
     }  
@@ -76,7 +76,6 @@ public class QuartzConfigration {
         	// 注册触发器  
         	bean.setTriggers(cronJobTrigger);  
 //        }
-        
         return bean;  
     }  
 }  
