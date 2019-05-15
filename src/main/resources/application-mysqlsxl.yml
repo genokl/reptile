@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: hKb,iJEel9kn?.
-    url: jdbc:mysql://${server.mysql.host}:${server.mysql.port}/ultrax?characterEncoding=UTF-8&useSSL=true
+    url: jdbc:mysql://${server.mysql.host}:${server.mysql.port}/ultrax?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
  
     tomcat:
       initial-size: 1   #初始化连接大小
