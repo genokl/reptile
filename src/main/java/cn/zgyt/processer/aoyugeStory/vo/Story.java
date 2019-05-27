@@ -10,8 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.Persistent;
 @Entity
 @Table(name="story")
 public class Story {
@@ -32,6 +34,13 @@ public class Story {
 	 * 小说简介
 	 */
 	private String storySynopsis;
+	/**
+	 * 小说类型
+	 * 1有声小说
+	 * 2文字小说
+	 * 3图片
+	 */
+	private String storyReadType;
 	/**
 	 * 小说类型
 	 */
@@ -57,10 +66,8 @@ public class Story {
 	 */
 	private String baseUrl;
 	
-	@OneToMany(targetEntity=StoryChapter.class, mappedBy="story", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@Transient
 	private List<StoryChapter> chapter;
-	
-	
 	
 	
 	@Override
@@ -158,6 +165,12 @@ public class Story {
 	}
 	public void setChapter(List<StoryChapter> chapter) {
 		this.chapter = chapter;
+	}
+	public String getStoryReadType() {
+		return storyReadType;
+	}
+	public void setStoryReadType(String storyReadType) {
+		this.storyReadType = storyReadType;
 	}
 	
 	

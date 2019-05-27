@@ -20,15 +20,15 @@ public class StoryChapter {
     @GenericGenerator(name = "increment", strategy = "increment")
 	private Integer id;
 	
-	@ManyToOne(targetEntity=Story.class, fetch=FetchType.LAZY)
-	private Story story;
+	private String storyId;
 	/**
 	 * 章节名称
 	 */
 	private String chapterTitle;
 	/**
 	 * 章节排名
-	 *  第一章第二章
+	 *  ps：第一章
+	 *  第二章
 	 */
 	private String chapterSequence;
 	/**
@@ -82,6 +82,16 @@ public class StoryChapter {
 	public void setChapterInfo(String chapterInfo) {
 		this.chapterInfo = chapterInfo;
 	}
+
+	public String getStoryId() {
+		return storyId;
+	}
+
+	public void setStoryId(String storyId) {
+		this.storyId = storyId;
+	}
+
+
 	
 	
 	

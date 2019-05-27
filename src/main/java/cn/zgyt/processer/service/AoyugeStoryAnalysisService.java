@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -35,16 +37,30 @@ public class AoyugeStoryAnalysisService {
 
 	/**
 	  * 获取所有的页面链接
+	  * @param url 某系列某类型小说
+	  * @param baseUrl 某小说网站base
+	  * @param filterUrl 某小说网站过滤字符串 
+	  * @param storyType 小说类型
+	  * @param startNum 小说列表开始页数
+	  * @param endNum 小说列表完结页数
+	  * @param 共爬取多少本小说
 	 * @return
 	 */
-	public List<String> analysisPageForTotal(String url, String baseUrl, String filterUrl, String storyType) {
+	public List<String> analysisPageForTotal(
+			String url, 
+			String baseUrl, 
+			String filterUrl, 
+			String storyType,
+			Integer startNum,
+			Integer endNum,
+			Integer storyNum) {
 		List<String> pageUrl = new ArrayList<String>();
 		Map<String, Integer> mm = new HashMap<>();
 		try {
 			Document d = Jsoup.connect(url).get();
-			Elements select = d.select(".pages .pagelink >a");
-			for (int i = 0; i < 177; i++) {
-				String targeturl = "http://www.aoyuge.com/fenlei-3-" + (i + 1) + ".html";
+			Elements select = d.select(".pages .pagelink >a"); 
+			for (int i = startNum-1; i < endNum; i++) {
+				String targeturl = baseUrl+"/fenlei-3-" + (i + 1) + ".html";
 				pageUrl.add(targeturl);
 				analysisOnePageForTotal(targeturl, baseUrl, filterUrl, storyType);
 			}
@@ -70,9 +86,9 @@ public class AoyugeStoryAnalysisService {
 			story.setStoryFirstPage(attr);
 			story.setFilterUrl(filterUrl);
 			story.setBaseUrl(baseUrl);
-//			analysisPageForOneStory(story);
+			analysisPageForOneStory(story);
 		}
-		System.out.println(new Date());
+//		System.out.println(new Date());
 		return null;
 	}
 
@@ -134,11 +150,20 @@ public class AoyugeStoryAnalysisService {
 			String info = d.select("#BookText").text().replaceAll("&nbsp;", "");
 			chapter.setChapterInfo(info);
 		}
-		if (ConstantPool.getLlSize() > 10) {
-			Thread.sleep(1000);
-		}
 		ConstantPool.addToLl(story);
 //			System.out.println("保存："+story.getStoryTitle());
+		return null;
+	}
+	
+	@Transactional
+	public List<String> saveStory(Story story) throws Exception {
+		List<StoryChapter> scs = story.getChapter();
+		sRep.save(story);
+		String storyId=story.getId()+"";
+		for (int i = 0; i < scs.size(); i++) {
+			scs.get(i).setStoryId(storyId);
+		}
+		scRep.save(scs);
 		return null;
 	}
 
